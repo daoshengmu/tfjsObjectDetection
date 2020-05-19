@@ -33,9 +33,7 @@ class App extends React.Component {
     isModelReady: false,
     predictions: null,
     base64String: '',
-    capturedImage: null,
-    s3ImageUrl: '',   // x
-    imageSubmitted: false,
+    capturedImage: null
   }
 
   async componentDidMount() {
@@ -100,7 +98,6 @@ class App extends React.Component {
 
   selectImageHandler = async () => {
     this.setState({
-      imageSubmitted: false,
       predictions: null
     });
     try {
@@ -124,8 +121,8 @@ class App extends React.Component {
 
   renderPrediction = prediction => {
     return (
-      <Text key={prediction.className} style={styles.text}>
-        {prediction.className}
+      <Text style={styles.text}>
+        {prediction.className}: {prediction.probability.toFixed(2)}
       </Text>
     )
   }
