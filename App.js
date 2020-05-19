@@ -19,9 +19,10 @@ import {
 } from 'react-native';
 
 import * as tf from '@tensorflow/tfjs';
-import { fetch } from '@tensorflow/tfjs-react-native'; // don't need
+import { fetch } from '@tensorflow/tfjs-react-native';
 import * as mobilenet from '@tensorflow-models/mobilenet';
 import Constants from 'expo-constants'
+import * as FileSystem from 'expo-file-system'
 import * as Permissions from 'expo-permissions'
 import * as jpeg from 'jpeg-js';
 import * as ImagePicker from 'expo-image-picker';
@@ -76,24 +77,27 @@ class App extends React.Component {
 
   classifyImage = async () => {
     try {
-      console.log("path: " + this.state.capturedImage.uri);
-      const response = await fetch(this.state.capturedImage.uri, {}, { isBinary: true })
-      const rawImageData = await response.arrayBuffer()
-      const imageTensor = this.imageToTensor(rawImageData)
-      const predictions = await this.model.classify(imageTensor)
-      this.setState({ predictions })
-      console.log(predictions)
+      let rawImageData = null;
+
+      if (Constants.platform.web) {
+        const response = await fetch(this.state.capturedImage.uri, {}, { isBinary: true });
+        rawImageData = await response.arrayBuffer();
+      } else {
+        // This is a workaround for Android because `fetch` returns a Network error.
+        // iOS is still avilable to use `fetch` if we want.
+        const imgB64 = await FileSystem.readAsStringAsync(this.state.capturedImage.uri, {
+          encoding: FileSystem.EncodingType.Base64,
+        });
+        const imgBuffer = tf.util.encodeString(imgB64, 'base64').buffer;
+        rawImageData = new Uint8Array(imgBuffer);
+      }
+      const imageTensor = this.imageToTensor(rawImageData);
+      const predictions = await this.model.classify(imageTensor);
+      this.setState({ predictions });
+      console.log(predictions);
     } catch (error) {
       console.log(error);
     }
-  }
-  
-  renderPrediction = prediction => {
-    return (
-      <Text key={prediction.className} style={styles.text}>
-        {prediction.className}
-      </Text>
-    )
   }
 
   selectImageHandler = async () => {
@@ -121,7 +125,7 @@ class App extends React.Component {
 
   renderPrediction = prediction => {
     return (
-      <Text style={styles.text}>
+      <Text key={prediction.className} style={styles.text}>
         {prediction.className}: {prediction.probability.toFixed(2)}
       </Text>
     )
