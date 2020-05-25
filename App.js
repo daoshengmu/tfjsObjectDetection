@@ -203,6 +203,7 @@ const styles = StyleSheet.create({
     borderColor: '#2366bf',
     borderWidth: 5,
     borderStyle: 'dashed',
+    borderRadius: 1,
     marginTop: 40,
     marginBottom: 10,
     position: 'relative',
@@ -227,10 +228,6 @@ const styles = StyleSheet.create({
     width: '100%',
     flexDirection: 'column',
     alignItems: 'center'
-  },
-  captureButton: {
-    backgroundColor: "#337ab7",
-    width: 350,
   },
   transparentText: {
     color: '#222222',
