@@ -1,4 +1,4 @@
-# TensorFlow MobileNet Object Detection with React Native and Expo
+## TensorFlow MobileNet Object Detection with React Native and Expo
 
 
 | Android Device | Android Emulator | iOS Device  | iOS Simulator |  Web |
