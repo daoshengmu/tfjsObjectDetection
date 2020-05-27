@@ -1,6 +1,10 @@
+<<<<<<< HEAD
 ## TensorFlow MobileNet Object Detection with React Native and Expo
 
 <img src="https://user-images.githubusercontent.com/1263177/82988748-7e481300-9fae-11ea-8454-66a23892fce5.gif" width="250" />
+=======
+# TensorFlow MobileNet Object Detection with React Native and Expo
+>>>>>>> 97ec12d... Update README.md
 
 
 | Android Device | Android Emulator | iOS Device  | iOS Simulator |  Web |
