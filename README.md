@@ -20,4 +20,3 @@ This is inspired by [@amandeepmittal](https://github.com/amandeepmittal/mobilene
 ## Workaround for failures
 - If you see `Namespace not marked type-only declare` error. Please open `node_modules/@tensorflow/tfjs-converter/dist/src/data/compiled_api.ts` and replace `export namespace` with `export declare namespace`.
 
-
